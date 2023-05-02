@@ -35,6 +35,13 @@ def test(c, pkg):
     run package tests using hatch and pytest
     '''
     c.run("cd {0} && hatch run test".format(pkg))
+
+@task
+def install(c, pkg):
+    '''
+    install package tests using hatch and pytest
+    '''
+    c.run("cd {0} && pip install --user --force-reinstall .".format(pkg))
     
 @task
 def build(c, pkg):
