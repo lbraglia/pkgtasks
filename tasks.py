@@ -107,7 +107,7 @@ def streamlitrun(c, pkg):
 @task
 def completion(c):
     """
-    Refresh ~/.invoke-completion.sh
+    Refresh ~/.invoke-completion.sh.
     """
     c.run("invoke --print-completion-script bash > ~/.invoke-completion.sh")
 
@@ -116,14 +116,14 @@ def completion(c):
 @task
 def list(c):
     """
-    Refresh ~/.invoke-completion.sh
+    List invoke tasks.
     """
     c.run("invoke -l")
 
 @task
 def help(c):
     """
-    H
+    Invoke's help.
     """
     c.run("invoke -h") 
    
