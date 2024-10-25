@@ -6,7 +6,7 @@ def updatetools(c):
     """
     Update software for package management.
     """
-    c.run("pip install --upgrade --user pip hatch build twine flake8 mypy sphinx")
+    c.run("pip install --upgrade --user pip hatch build twine flake8 mypy sphinx bandit")
 
 
 @task
@@ -41,6 +41,14 @@ def flake8(c, pkg):
     """
     c.run(f"cd {pkg} && flake8 .")
 
+
+@task
+def bandit(c, pkg):
+    """
+    Run bandit.
+    """
+    c.run(f"cd {pkg} && bandit -r .")
+    
 
 @task
 def mypy(c, pkg):
