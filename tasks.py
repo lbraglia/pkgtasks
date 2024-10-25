@@ -103,3 +103,11 @@ def streamlitrun(c, pkg):
     Run streamlit app locally.
     """
     c.run(f"cd {pkg} && streamlit run streamlit_app.py")
+
+@task
+def completion(c):
+    """
+    Refresh ~/.invoke-completion.sh
+    """
+    c.run("invoke --print-completion-script bash > ~/.invoke-completion.sh")
+    
