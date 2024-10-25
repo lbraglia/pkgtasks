@@ -110,4 +110,20 @@ def completion(c):
     Refresh ~/.invoke-completion.sh
     """
     c.run("invoke --print-completion-script bash > ~/.invoke-completion.sh")
-    
+
+
+
+@task
+def list(c):
+    """
+    Refresh ~/.invoke-completion.sh
+    """
+    c.run("invoke -l")
+
+@task
+def help(c):
+    """
+    H
+    """
+    c.run("invoke -h") 
+   
