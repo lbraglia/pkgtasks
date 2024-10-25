@@ -1,59 +1,105 @@
 from invoke import task
 
-@task
-def update_toolchain(c):
-    '''
-    update software for package management
-    '''
-    c.run("pip install --upgrade --user pip hatch build twine")
 
 @task
-def setup(c):
-    '''
-    setup these tasks in the parent directory
-    '''
-    c.run("cd .. && ln -s pkgtasks/tasks.py")
-    
-@task    
+def updatetools(c):
+    """
+    Update software for package management.
+    """
+    c.run("pip install --upgrade --user pip hatch build twine flake8 mypy sphinx")
+
+
+@task
 def create(c, pkg):
-    '''
-    create a new project using hatch
-    '''
-    c.run("hatch new {0}".format(pkg))
-    c.run("cd {0} && mkdir docs && cd docs && sphinx-quickstart".format(pkg))
+    """
+    Create a new project using hatch.
+    """
+    c.run(f"hatch new {pkg}")
+    c.run(f"cd {pkg} && mkdir docs && cd docs && sphinx-quickstart")
+
 
 @task
 def doc(c, pkg):
-    '''
-    refresh package doc using sphinx
-    '''
-    c.run("cd {0} && sphinx-apidoc -f src/{1}/ -o docs".format(pkg, pkg))
+    """
+    Refresh package doc using sphinx.
+    """
+    c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
+
 
 @task
 def test(c, pkg):
-    '''
-    run package tests using hatch and pytest
-    '''
-    c.run("cd {0} && hatch run test".format(pkg))
+    """
+    Run package tests using hatch and pytest.
+    """
+    c.run(f"cd {pkg} && hatch run test")
+
+
+@task
+def flake8(c, pkg):
+    """
+    Run flake8.
+    """
+    c.run(f"cd {pkg} && flake8 .")
+
+
+@task
+def mypy(c, pkg):
+    """
+    Run mypy.
+    """
+    c.run(f"cd {pkg} && mypy .")
+
+
+@task
+def black(c, pkg):
+    """
+    Run black.
+    """
+    c.run(f"cd {pkg} && black --line-length 79 .")
+
+
+# @task
+# def install(c, pkg):
+#     """
+#     Install package from local source
+#     """
+#     c.run(f"cd {pkg} && pip install --user .")
 
 @task
 def install(c, pkg):
-    '''
-    install package tests using hatch and pytest
-    '''
-    # c.run("cd {0} && pip install --user --force-reinstall .".format(pkg))
-    c.run("cd {0} && pip install --user .".format(pkg))
-    
+    """
+    Install package from local source in editable mode.
+    """
+    c.run(f"cd {pkg} && pip install -e .")
+
+@task
+def installpypi(c, pkg):
+    """
+    Install package from pypi.
+    """
+    c.run(f"python3 -m pip install --upgrade {pkg}")    
+
 @task
 def build(c, pkg):
-    '''
-    build package sdist and wheel
-    '''
-    c.run("python3 -m build {0}".format(pkg))
+    """
+    Build package sdist and wheel.
+    """
+    c.run(f"python3 -m build {pkg}")
+
 
 @task
 def upload(c, pkg):
-    '''
-    upload pkg to pypi
-    '''
-    pass
+    """
+    Upload pkg to pypi.
+    """
+    c.run(f"cd {pkg} && rm -rf dist/*")
+    c.run(f"cd {pkg} && python3 -m build")
+    c.run(f"cd {pkg} && python3 -m twine upload dist/* --verbose")
+
+
+@task
+def streamlitrun(c, pkg):
+    """
+    Run streamlit app locally.
+    """
+    c.run(f"cd {pkg} && streamlit run streamlit_app.py")
