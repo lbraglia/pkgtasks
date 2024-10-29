@@ -31,7 +31,7 @@ def test(c, pkg):
     """
     Run package tests using hatch and pytest.
     """
-    c.run(f"cd {pkg} && hatch run test")
+    c.run(f"cd {pkg} && hatch test")
 
 
 @task
@@ -66,12 +66,13 @@ def black(c, pkg):
     c.run(f"cd {pkg} && black --line-length 79 .")
 
 
-# @task
-# def install(c, pkg):
-#     """
-#     Install package from local source
-#     """
-#     c.run(f"cd {pkg} && pip install --user .")
+@task
+def ruff(c, pkg):
+    """
+    Run ruff.
+    """
+    c.run(f"cd {pkg} && ruff check")
+    
 
 @task
 def install(c, pkg):
@@ -80,12 +81,14 @@ def install(c, pkg):
     """
     c.run(f"cd {pkg} && pip install -e .")
 
+
 @task
 def installpypi(c, pkg):
     """
     Install package from pypi.
     """
     c.run(f"python3 -m pip install --upgrade {pkg}")    
+
 
 @task
 def build(c, pkg):
@@ -112,6 +115,7 @@ def streamlitrun(c, pkg):
     """
     c.run(f"cd {pkg} && streamlit run streamlit_app.py")
 
+    
 @task
 def completion(c):
     """
@@ -120,13 +124,13 @@ def completion(c):
     c.run("invoke --print-completion-script bash > ~/.invoke-completion.sh")
 
 
-
 @task
 def list(c):
     """
     List invoke tasks.
     """
     c.run("invoke -l")
+
 
 @task
 def help(c):
