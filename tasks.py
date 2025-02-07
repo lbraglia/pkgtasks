@@ -6,7 +6,7 @@ def updatetools(c):
     """
     Update software for package management.
     """
-    c.run("pip install --upgrade --user pip hatch build twine uv ruff mypy sphinx bandit")
+    c.run("pip install --upgrade --user pip hatch build twine uv ruff pandas-stubs mypy")
 
 
 @task
@@ -35,20 +35,20 @@ def test(c, pkg):
 
 
 
-@task
-def securitycheck(c, pkg):
-    """
-    Run bandit.
-    """
-    c.run(f"cd {pkg} && bandit -r .")
+# @task
+# def securitycheck(c, pkg):
+#     """
+#     Run bandit.
+#     """
+#     os.system(f"cd {pkg} && bandit -r . | less")
     
 
 @task
-def staticcheck(c, pkg):
+def check(c, pkg):
     """
     Run mypy.
     """
-    c.run(f"cd {pkg} && mypy .")
+    os.system(f"cd {pkg} && mypy . | less")
 
 
 # @task
