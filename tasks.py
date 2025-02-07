@@ -17,31 +17,6 @@ def test(c, pkg):
     c.run(f"cd {pkg} && pytest")
     # c.run(f"cd {pkg} && hatch test")
 
-# @task
-# def create(c, pkg):
-#     """
-#     Create a new project using hatch.
-#     """
-#     c.run(f"hatch new {pkg}")
-#     c.run(f"cd {pkg} && mkdir docs && cd docs && sphinx-quickstart")
-
-
-# @task
-# def doc(c, pkg):
-#     """
-#     Refresh package doc using sphinx.
-#     """
-#     c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
-
-
-
-# @task
-# def securitycheck(c, pkg):
-#     """
-#     Run bandit.
-#     """
-#     os.system(f"cd {pkg} && bandit -r . | less")
-    
 
 @task
 def check(c, pkg):
@@ -51,21 +26,13 @@ def check(c, pkg):
     os.system(f"cd {pkg} && mypy . | less")
 
 
-# @task
-# def lint(c, pkg):
-#     """
-#     Run black.
-#     """
-#     c.run(f"cd {pkg} && black --line-length 79 .")
-
-
 @task
 def lint(c, pkg):
     """
     Run ruff.
     """
     os.system(f"cd {pkg} && ruff check | less")
-    
+
 
 @task
 def install(c, pkg):
@@ -131,4 +98,41 @@ def help(c):
     Invoke's help.
     """
     c.run("invoke -h") 
+
+
+# @task
+# def create(c, pkg):
+#     """
+#     Create a new project using hatch.
+#     """
+#     c.run(f"hatch new {pkg}")
+#     c.run(f"cd {pkg} && mkdir docs && cd docs && sphinx-quickstart")
+
+
+# @task
+# def doc(c, pkg):
+#     """
+#     Refresh package doc using sphinx.
+#     """
+#     c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
+
+
+
+# @task
+# def securitycheck(c, pkg):
+#     """
+#     Run bandit.
+#     """
+#     os.system(f"cd {pkg} && bandit -r . | less")
+    
+
+# @task
+# def lint(c, pkg):
+#     """
+#     Run black.
+#     """
+#     c.run(f"cd {pkg} && black --line-length 79 .")
+
+    
+
    
