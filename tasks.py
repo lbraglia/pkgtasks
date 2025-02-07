@@ -1,49 +1,42 @@
 from invoke import task
-
+import os
 
 @task
 def updatetools(c):
     """
     Update software for package management.
     """
-    c.run("pip install --upgrade --user pip hatch build twine flake8 mypy sphinx bandit")
-
-
-@task
-def create(c, pkg):
-    """
-    Create a new project using hatch.
-    """
-    c.run(f"hatch new {pkg}")
-    c.run(f"cd {pkg} && mkdir docs && cd docs && sphinx-quickstart")
-
-
-@task
-def doc(c, pkg):
-    """
-    Refresh package doc using sphinx.
-    """
-    c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
+    c.run("pip install --upgrade --user pip hatch build twine uv ruff mypy sphinx bandit")
 
 
 @task
 def test(c, pkg):
     """
-    Run package tests using hatch and pytest.
+    Run package tests using pytest.
     """
-    c.run(f"cd {pkg} && hatch test")
+    c.run(f"cd {pkg} && pytest")
+    # c.run(f"cd {pkg} && hatch test")
+
+# @task
+# def create(c, pkg):
+#     """
+#     Create a new project using hatch.
+#     """
+#     c.run(f"hatch new {pkg}")
+#     c.run(f"cd {pkg} && mkdir docs && cd docs && sphinx-quickstart")
+
+
+# @task
+# def doc(c, pkg):
+#     """
+#     Refresh package doc using sphinx.
+#     """
+#     c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
+
 
 
 @task
-def flake8(c, pkg):
-    """
-    Run flake8.
-    """
-    c.run(f"cd {pkg} && flake8 .")
-
-
-@task
-def bandit(c, pkg):
+def securitycheck(c, pkg):
     """
     Run bandit.
     """
@@ -51,27 +44,27 @@ def bandit(c, pkg):
     
 
 @task
-def mypy(c, pkg):
+def staticcheck(c, pkg):
     """
     Run mypy.
     """
     c.run(f"cd {pkg} && mypy .")
 
 
-@task
-def black(c, pkg):
-    """
-    Run black.
-    """
-    c.run(f"cd {pkg} && black --line-length 79 .")
+# @task
+# def lint(c, pkg):
+#     """
+#     Run black.
+#     """
+#     c.run(f"cd {pkg} && black --line-length 79 .")
 
 
 @task
-def ruff(c, pkg):
+def lint(c, pkg):
     """
     Run ruff.
     """
-    c.run(f"cd {pkg} && ruff check")
+    os.system(f"cd {pkg} && ruff check | less")
     
 
 @task
