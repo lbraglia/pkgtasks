@@ -4,15 +4,23 @@ import os
 @task
 def updatetools(c):
     """
-    Update software for package management.
+    update toolchain for package management
     """
     c.run("pip install --upgrade --user pip hatch uv ruff pandas-stubs mypy pytest")
 
 
 @task
+def create(c, pkg):
+    """
+    create a new library/package
+    """
+    c.run(f"uv init --lib {pkg}")
+
+
+@task
 def test(c, pkg):
     """
-    Run package tests using pytest.
+    pytest
     """
     c.run(f"cd {pkg} && pytest")
 
@@ -20,7 +28,7 @@ def test(c, pkg):
 @task
 def check(c, pkg):
     """
-    Run mypy.
+    mypy
     """
     os.system(f"cd {pkg} && mypy . | less")
 
@@ -28,7 +36,7 @@ def check(c, pkg):
 @task
 def lint(c, pkg):
     """
-    Run ruff.
+    ruff
     """
     os.system(f"cd {pkg} && ruff check | less")
 
@@ -36,42 +44,25 @@ def lint(c, pkg):
 @task
 def install(c, pkg):
     """
-    Install package from local source in editable mode.
+    install package from local source in editable mode
     """
     c.run(f"cd {pkg} && pip install -e .")
 
 
 @task
-def installpypi(c, pkg):
-    """
-    Install package from pypi.
-    """
-    c.run(f"python3 -m pip install -U --upgrade {pkg}")    
-
-
-@task
-def build(c, pkg):
-    """
-    Build package sdist and wheel.
-    """
-    c.run(f"uv build {pkg}")
-
-
-@task
 def upload(c, pkg):
     """
-    Upload pkg to pypi.
+    build and upload to PyPI
     """
     c.run(f"cd {pkg} && rm -rf dist/*")
     c.run(f"cd {pkg} && uv build .")
-    # c.run(f"cd {pkg} && python3 -m twine upload dist/* --verbose")
     c.run(f"cd {pkg} && uv publish dist/* --verbose")
 
 
 @task
 def streamlitrun(c, pkg):
     """
-    Run streamlit app locally.
+    run streamlit app locally
     """
     c.run(f"cd {pkg} && streamlit run streamlit_app.py")
 
@@ -79,7 +70,7 @@ def streamlitrun(c, pkg):
 @task
 def list(c):
     """
-    List invoke tasks.
+    invoke tasks
     """
     c.run("invoke -l")
 
@@ -87,17 +78,25 @@ def list(c):
 @task
 def help(c):
     """
-    Invoke's help.
+    invoke's help
     """
     c.run("invoke -h") 
 
 
-@task
-def create(c, pkg):
-    """
-    Create a new library/package.
-    """
-    c.run(f"uv init --lib {pkg}")
+# @task
+# def build(c, pkg):
+#     """
+#     build sdist and wheel files
+#     """
+#     c.run(f"uv build {pkg}")
+
+
+# @task
+# def installpypi(c, pkg):
+#     """
+#     Install package from pypi.
+#     """
+#     c.run(f"python3 -m pip install -U --upgrade {pkg}")    
 
 
 # @task
