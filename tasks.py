@@ -77,14 +77,6 @@ def streamlitrun(c, pkg):
 
     
 @task
-def completion(c):
-    """
-    Refresh ~/.invoke-completion.sh.
-    """
-    c.run("invoke --print-completion-script bash > ~/.invoke-completion.sh")
-
-
-@task
 def list(c):
     """
     List invoke tasks.
@@ -100,13 +92,12 @@ def help(c):
     c.run("invoke -h") 
 
 
-# @task
-# def create(c, pkg):
-#     """
-#     Create a new project using hatch.
-#     """
-#     c.run(f"hatch new {pkg}")
-#     c.run(f"cd {pkg} && mkdir docs && cd docs && sphinx-quickstart")
+@task
+def create(c, pkg):
+    """
+    Create a new library/package.
+    """
+    c.run(f"uv init --lib {pkg}")
 
 
 # @task
@@ -115,7 +106,6 @@ def help(c):
 #     Refresh package doc using sphinx.
 #     """
 #     c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
-
 
 
 # @task
@@ -132,7 +122,3 @@ def help(c):
 #     Run black.
 #     """
 #     c.run(f"cd {pkg} && black --line-length 79 .")
-
-    
-
-   
