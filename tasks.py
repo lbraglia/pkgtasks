@@ -6,7 +6,7 @@ def updatetools(c):
     """
     Update software for package management.
     """
-    c.run("pip install --upgrade --user pip hatch build twine uv ruff pandas-stubs mypy")
+    c.run("pip install --upgrade --user pip hatch uv ruff pandas-stubs mypy pytest")
 
 
 @task
@@ -15,7 +15,6 @@ def test(c, pkg):
     Run package tests using pytest.
     """
     c.run(f"cd {pkg} && pytest")
-    # c.run(f"cd {pkg} && hatch test")
 
 
 @task
@@ -47,7 +46,7 @@ def installpypi(c, pkg):
     """
     Install package from pypi.
     """
-    c.run(f"python3 -m pip install --upgrade {pkg}")    
+    c.run(f"python3 -m pip install -U --upgrade {pkg}")    
 
 
 @task
@@ -55,7 +54,7 @@ def build(c, pkg):
     """
     Build package sdist and wheel.
     """
-    c.run(f"python3 -m build {pkg}")
+    c.run(f"uv build {pkg}")
 
 
 @task
@@ -64,8 +63,9 @@ def upload(c, pkg):
     Upload pkg to pypi.
     """
     c.run(f"cd {pkg} && rm -rf dist/*")
-    c.run(f"cd {pkg} && python3 -m build")
-    c.run(f"cd {pkg} && python3 -m twine upload dist/* --verbose")
+    c.run(f"cd {pkg} && uv build .")
+    # c.run(f"cd {pkg} && python3 -m twine upload dist/* --verbose")
+    c.run(f"cd {pkg} && uv publish dist/* --verbose")
 
 
 @task
