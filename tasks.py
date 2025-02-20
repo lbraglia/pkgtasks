@@ -99,12 +99,12 @@ def help(c):
 #     c.run(f"python3 -m pip install -U --upgrade {pkg}")    
 
 
-# @task
-# def doc(c, pkg):
-#     """
-#     Refresh package doc using sphinx.
-#     """
-#     c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
+@task
+def doc(c, pkg):
+    """
+    Refresh package doc using sphinx.
+    """
+    c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
 
 
 # @task
