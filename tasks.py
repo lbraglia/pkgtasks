@@ -104,7 +104,7 @@ def doc(c, pkg):
     """
     Refresh package doc using sphinx.
     """
-    c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs")
+    c.run(f"cd {pkg} && sphinx-apidoc -f src/{pkg}/ -o docs/source")
 
 
 # @task
