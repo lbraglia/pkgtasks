@@ -26,19 +26,29 @@ def test(c, pkg):
 
 
 @task
-def check(c, pkg):
+def mypy(c, pkg):
     """
     mypy
     """
-    os.system(f"cd {pkg} && mypy . | less")
+    os.system(f"cd {pkg} && mypy .")
 
 
 @task
-def lint(c, pkg):
+def ruff(c, pkg):
     """
     ruff
     """
-    os.system(f"cd {pkg} && ruff check | less")
+    os.system(f"cd {pkg} && ruff check")
+
+
+@task
+def ruffstats(c, pkg):
+    """
+    ruff
+    """
+    os.system(f"cd {pkg} && ruff check --statistics")
+    print(f"\n\truff check {pkg} --select RULE [--fix]\n")
+
 
 
 @task
